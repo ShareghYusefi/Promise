@@ -1,6 +1,8 @@
 // What is a callback function?
 // A callback function is an anonymous function (no name) that is passed as an argument to another function.
 
+const { log } = require("console");
+
 // What is Syncronous and Asyncronous code?
 // Syncronous stand for events occuring at the same time. In programming, syncronous code is executed line by line and in order.
 // Synchonous code is blocking, meaning that it will block futher execution of code until it is done with the current line of code.
@@ -34,6 +36,41 @@ getUser(1, (user) => {
 });
 
 console.log("After");
+
+console.log("Before Callback Hell");
+
+// What is a callback hell?
+// Callback hell is a term used to describe the situation when you have multiple nested callback functions.
+function step1(callback) {
+  setTimeout(() => {
+    console.log("Step 1 Complete");
+    callback();
+  }, 1000);
+}
+
+function step2(callback) {
+  setTimeout(() => {
+    console.log("Step 2 Complete");
+    callback();
+  }, 1000);
+}
+
+function step3(callback) {
+  setTimeout(() => {
+    console.log("Step 3 Complete");
+    callback();
+  }, 1000);
+}
+
+step1(() => {
+  step2(() => {
+    step3(() => {
+      console.log("All steps are completed!");
+    });
+  });
+});
+
+console.log("After Callback Hell");
 
 // What is a Promise?
 // A promise is an object that represents the eventual completion (or failure) of an asnycronous operation.
@@ -76,3 +113,47 @@ getUserPromise(2)
   });
 
 console.log("After Promise");
+
+// What is Promise Chaining?
+// Promise chaining is a technique used to chain multiple promises together. Solving the callback hell problem.
+
+console.log("Before Promise Chaining");
+
+function step1Promise() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Step 1 Promise Complete");
+      resolve();
+    }, 1000);
+  });
+}
+
+function step2Promise() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Step 2 Promise Complete");
+      resolve();
+    }, 1000);
+  });
+}
+
+function step3Promise() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Step 3 Promise Complete");
+      resolve();
+    }, 1000);
+  });
+}
+
+step1Promise()
+  .then(step2Promise)
+  .then(step3Promise)
+  .then(() => {
+    console.log("All Promise steps are completed!");
+  })
+  .catch((error) => {
+    console.log("Error: ", error);
+  });
+
+console.log("After Promise Chaining");
