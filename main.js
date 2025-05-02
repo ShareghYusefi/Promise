@@ -1,8 +1,6 @@
 // What is a callback function?
 // A callback function is an anonymous function (no name) that is passed as an argument to another function.
 
-const { log } = require("console");
-
 // What is Syncronous and Asyncronous code?
 // Syncronous stand for events occuring at the same time. In programming, syncronous code is executed line by line and in order.
 // Synchonous code is blocking, meaning that it will block futher execution of code until it is done with the current line of code.
@@ -157,3 +155,55 @@ step1Promise()
   });
 
 console.log("After Promise Chaining");
+
+// Async/Await
+// Async and await are a modern way to work with promises.
+// Async functions are functions that return a promise.
+
+console.log("Before Async/Await");
+
+function getUserAsync(id) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // make a mock database call
+      console.log("Retrieving user with id: " + id);
+      // Get the user from the database
+      let user = {
+        id: id,
+        githubUsername: "ShareghYusefi",
+      };
+      if (user) {
+        // If we have a user, we resolve the promise with the user object
+        resolve(user);
+      } else {
+        // If we don't have a user, we reject the promise with an error message
+        reject(new Error("User not found"));
+      }
+    }, 3000);
+  });
+}
+
+// 1. Traditional way of calling a function that returns a promise
+getUserAsync(2)
+  .then((user) => {
+    console.log("User: ", user);
+  })
+  .catch((error) => {
+    console.log("Error: ", error);
+  });
+
+// 2. Using async/await to call a function that returns a promise
+// async keyword is used to define a asynchronous function
+async function displayUser(id) {
+  // try block can be used to replace the .then method
+  try {
+    // we can get the result of a promise using await keyword and store it in a variable
+    const user = await getUserAsync(id);
+    console.log("User: ", user);
+  } catch (error) {
+    // catch block can be used to replace the .catch method
+    console.log("Error: ", error);
+  }
+}
+
+displayUser(3);
